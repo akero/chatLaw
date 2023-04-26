@@ -12,6 +12,23 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { CSSProperties } from 'react';
+
+const uploadButtonStyle: CSSProperties = {
+  position: 'fixed',
+  top: '1rem',
+  right: '1rem',
+  cursor: 'pointer',
+  display: 'inline-block',
+  backgroundColor: '#3498db',
+  color: 'white',
+  padding: '0.5rem 1rem',
+  borderRadius: '4px',
+  fontSize: '14px',
+  zIndex: 100,
+};
+
+
 
 export default function Home() {
   const [query, setQuery] = useState<string>('');
@@ -40,6 +57,17 @@ export default function Home() {
   useEffect(() => {
     textAreaRef.current?.focus();
   }, []);
+
+// Handle file uploads
+const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files && e.target.files.length > 0) {
+    const file = e.target.files[0];
+    console.log('File uploaded:', file);
+    // Process the file here
+  } else {
+    console.log('No file selected');
+  }
+};
 
   //handle form submission
   async function handleSubmit(e: any) {
@@ -127,6 +155,15 @@ export default function Home() {
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             temp
           </h1>
+          <input
+          type="file"
+          id="file-upload"
+          onChange={handleFileUpload}
+          style={{ display: 'none' }}
+        />
+        <label htmlFor="file-upload" style={{ ...uploadButtonStyle }}>
+          Upload Document
+        </label>
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
